@@ -7,6 +7,7 @@ const errorHandler = require('./middleware/error-handler');
 const notFound = require('./middleware/not-found');
 const home = require('./routes/EarlsHome');
 const homePosts = require('./routes/EarlsPosts');
+const auth = require('./routes/auth');
 const cors = require('cors');
 const path = require('path');
 const earlsSchema = require('./models/earlsSchema');
@@ -40,6 +41,7 @@ app.use(express.json());
 // Routes
 app.use('/api/v1/home', home);
 app.use('/api/v1/posts', homePosts);
+app.use('/api/v1/auth', auth);
 
 // home-content
 
@@ -205,7 +207,7 @@ app.post('/api/v1/Posts', upload.single('postImage'), async (req, res, next) => 
 
 app.put('/api/v1/editPost/:id', upload.single('postImage'), async (req, res, next) => {
   const { postDate, postTitle, postTopic, postDescription,postFooterText, postInfo, postLine1, postLine2, postLine3, postLine4, postSummary, download_btn, postFooter, readme_btn } = req.body;
-  console.log(req.body, "body")
+  // console.log(req.body, "body")
 
   const updateFields = {
     postDate,
@@ -298,7 +300,7 @@ app.put('/api/v1/editPost/:id', upload.single('postImage'), async (req, res, nex
       { new: true }
     );
 
-    console.log(updatedContent, "updatedContent");
+    // console.log(updatedContent, "updatedContent");
     if (!updatedContent) {
       return res.status(500).json({ message: 'Failed to update content' });
     }
